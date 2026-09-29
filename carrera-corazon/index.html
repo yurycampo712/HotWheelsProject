@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30 de Septiembre • La Carrera a mi Corazón</title>
+    <!-- Fuentes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ================================= -->
+    <!-- PANTALLA DE INICIO -->
+    <!-- ================================= -->
+    <main class="inicio" id="pantallaInicio">
+        <div class="luzInicio"></div>
+        
+        <section class="contenido">
+            <div class="badge">30 DE SEPTIEMBRE • MCLAREN GT EDITION</div>
+            <h1>LA CARRERA<br><span>A MI CORAZÓN</span></h1>
+            <p class="mensaje">
+                Dicen que el 30 de septiembre se regala un Hot Wheels a la persona especial... 
+                Pero tú no solo mereces un auto, mereces ganar el Gran Premio de mi vida.
+            </p>
+            
+            <button id="botonComenzar" class="btn-principal" onclick="iniciarCarreraDesdeBoton()">
+                <span>INICIAR GRAN PREMIO 🏎️💥</span>
+            </button>
+        </section>
+    </main>
+
+    <!-- ================================= -->
+    <!-- PANTALLA DE CARRERA -->
+    <!-- ================================= -->
+    <main class="carrera" id="pantallaCarrera">
+        <!-- Canvas para confeti -->
+        <canvas id="confettiCanvas"></canvas>
+
+        <div class="hud-top">
+            <div class="contador" id="contador">3</div>
+            <div class="mensajeCarrera" id="mensajeCarrera">¡PARRILLA DE SALIDA LISTA!</div>
+        </div>
+
+        <div class="escenaPista" id="escenaPista">
+            <div class="pista-container" id="pistaContainer">
+                
+                <!-- BORDES / PIANOS LATERALES CIRCUITO FIA -->
+                <div class="pordón pordon-izq"></div>
+                <div class="pordón pordon-der"></div>
+
+                <!-- CARRETERA / PISTA -->
+                <div class="pista-asfalto" id="pistaAsfalto">
+
+                    <!-- LÍNEA DE SALIDA PINTADA -->
+                    <div class="parrilla-salida" id="parrillaSalida">
+                        <div class="linea-salida-pintada">START / FINISH</div>
+                    </div>
+
+                    <!-- META -->
+                    <div class="lineaMeta" id="lineaMeta">
+                        <div class="textoMeta">FINISH LINE</div>
+                    </div>
+
+                    <!-- OBSTÁCULOS DE PISTA -->
+                    <div class="obstaculo obs-cono" id="obsCono">
+                        <svg viewBox="0 0 100 80" class="svg-obs">
+                            <polygon points="50,10 20,70 80,70" fill="#e60021" stroke="#ffcc00" stroke-width="2"/>
+                            <ellipse cx="50" cy="70" rx="35" ry="8" fill="#111"/>
+                        </svg>
+                    </div>
+
+                    <div class="obstaculo obs-aceite" id="obsAceite">
+                        <svg viewBox="0 0 120 70" class="svg-obs">
+                            <path d="M 20 35 C 10 10, 60 5, 90 20 C 110 35, 100 60, 60 65 C 20 70, 0 50, 20 35 Z" fill="#050508" stroke="#ff0055" stroke-width="2" opacity="0.9"/>
+                        </svg>
+                    </div>
+
+                    <div class="obstaculo obs-barrera" id="obsBarrera">
+                        <div class="barrera-neon"><span>PELIGRO</span><span>PELIGRO</span></div>
+                    </div>
+
+                    <div class="obstaculo obs-nitro" id="obsNitro">
+                        <div class="pad-nitro">▲ HYPER NITRO ▲</div>
+                    </div>
+
+                    <!-- RIVAL 2 (Titanium Gold Concept) - Carril Izquierda -->
+                    <div class="carro rival" id="rival2">
+                        <div class="headlight-beam"></div>
+                        <svg viewBox="0 0 100 200" class="svg-car">
+                            <ellipse cx="50" cy="180" rx="42" ry="12" fill="rgba(0,0,0,0.6)" />
+                            <rect x="4" y="30" width="14" height="38" rx="4" fill="#111" />
+                            <rect x="82" y="30" width="14" height="38" rx="4" fill="#111" />
+                            <rect x="2" y="132" width="16" height="44" rx="5" fill="#111" />
+                            <rect x="82" y="132" width="16" height="44" rx="5" fill="#111" />
+                            <path d="M 28 15 C 28 0, 72 0, 72 15 L 86 142 C 86 178, 14 178, 14 142 Z" fill="url(#gradRivalGold)" />
+                            <path d="M 46 5 L 54 5 L 54 175 L 46 175 Z" fill="#ffaa00" />
+                            <path d="M 34 52 L 66 52 L 60 100 L 40 100 Z" fill="#121212" stroke="#ffaa00" stroke-width="1.5" />
+                            <rect x="10" y="165" width="80" height="10" rx="3" fill="#222" stroke="#ffaa00" stroke-width="1" />
+                            <line x1="26" y1="18" x2="38" y2="12" stroke="#ffcc00" stroke-width="3" stroke-linecap="round" />
+                            <line x1="74" y1="18" x2="62" y2="12" stroke="#ffcc00" stroke-width="3" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="gradRivalGold" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stop-color="#2a2b30"/>
+                                    <stop offset="50%" stop-color="#5c606e"/>
+                                    <stop offset="100%" stop-color="#18191c"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <!-- RIVAL 1 (Cobalt Cyber GT) - Carril Centro -->
+                    <div class="carro rival" id="rival1">
+                        <div class="headlight-beam"></div>
+                        <svg viewBox="0 0 100 200" class="svg-car">
+                            <ellipse cx="50" cy="180" rx="42" ry="12" fill="rgba(0,0,0,0.6)" />
+                            <rect x="4" y="30" width="14" height="38" rx="4" fill="#111" />
+                            <rect x="82" y="30" width="14" height="38" rx="4" fill="#111" />
+                            <rect x="2" y="132" width="16" height="44" rx="5" fill="#111" />
+                            <rect x="82" y="132" width="16" height="44" rx="5" fill="#111" />
+                            <path d="M 28 15 C 28 0, 72 0, 72 15 L 86 142 C 86 178, 14 178, 14 142 Z" fill="url(#gradRivalAzul)" />
+                            <path d="M 34 52 L 66 52 L 60 100 L 40 100 Z" fill="#040e1a" stroke="#00d2ff" stroke-width="1.5" />
+                            <rect x="10" y="165" width="80" height="10" rx="3" fill="#020912" stroke="#00d2ff" stroke-width="1" />
+                            <line x1="26" y1="18" x2="38" y2="12" stroke="#00f0ff" stroke-width="3" stroke-linecap="round" />
+                            <line x1="74" y1="18" x2="62" y2="12" stroke="#00f0ff" stroke-width="3" stroke-linecap="round" />
+                            <defs>
+                                <linearGradient id="gradRivalAzul" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stop-color="#00183d"/>
+                                    <stop offset="50%" stop-color="#0055ff"/>
+                                    <stop offset="100%" stop-color="#000c24"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <!-- JUGADOR (MCLAREN STEALTH CAMO GT - BASADO EN LA FOTO) -->
+                    <div class="carro jugador" id="carroJugador">
+                        <div class="headlight-beam player-beam"></div>
+                        <div class="fuego-escape" id="fuegoEscape"></div>
+                        <svg viewBox="0 0 100 200" class="svg-car">
+                            <ellipse cx="50" cy="182" rx="46" ry="15" fill="rgba(0, 212, 255, 0.35)" filter="blur(5px)" />
+                            <!-- Llantas Deportivas GT -->
+                            <rect x="2" y="26" width="16" height="38" rx="4" fill="#050505" stroke="#8890a0" stroke-width="0.8"/>
+                            <rect x="82" y="26" width="16" height="38" rx="4" fill="#050505" stroke="#8890a0" stroke-width="0.8"/>
+                            <rect x="0" y="130" width="18" height="48" rx="5" fill="#050505" stroke="#8890a0" stroke-width="0.8"/>
+                            <rect x="82" y="130" width="18" height="48" rx="5" fill="#050505" stroke="#8890a0" stroke-width="0.8"/>
+                            
+                            <!-- Carrocería Aerodinámica McLaren Plata/Gris Metálico -->
+                            <path d="M 28 10 C 28 -4, 72 -4, 72 10 L 88 142 C 88 182, 12 182, 12 142 Z" fill="url(#gradMclarenSilver)" />
+                            
+                            <!-- Tomas de Aire Laterales en Fibra de Carbono -->
+                            <path d="M 12 75 Q 26 98 12 135 L 20 135 Q 30 98 22 75 Z" fill="#111216" />
+                            <path d="M 88 75 Q 74 98 88 135 L 80 135 Q 70 98 78 75 Z" fill="#111216" />
+
+                            <!-- Patrón Camuflaje Geométrico en el Capó -->
+                            <polygon points="50,14 42,28 58,28" fill="#111215" opacity="0.85"/>
+                            <polygon points="35,30 45,30 50,42 40,42" fill="#22252e" opacity="0.9"/>
+                            <polygon points="55,30 65,30 60,42 50,42" fill="#161820" opacity="0.9"/>
+                            <polygon points="28,45 42,45 38,58 24,58" fill="#111215" opacity="0.85"/>
+                            <polygon points="72,45 58,45 62,58 76,58" fill="#22252e" opacity="0.85"/>
+
+                            <!-- Cabina Techo Carbono Oscuro -->
+                            <path d="M 30 52 L 70 52 L 64 105 L 36 105 Z" fill="#08090c" stroke="#555a66" stroke-width="1.2" />
+                            <path d="M 35 55 L 65 55 L 60 82 L 40 82 Z" fill="#12141c" />
+
+                            <!-- Gran Alerón Trasero McLaren GT -->
+                            <rect x="4" y="168" width="92" height="10" rx="3" fill="#0a0a0d" stroke="#a0a8b8" stroke-width="1.2" />
+                            <rect x="18" y="162" width="6" height="12" fill="#1e2028"/>
+                            <rect x="76" y="162" width="6" height="12" fill="#1e2028"/>
+
+                            <!-- Faros McLaren Curvos Xenón Cuchilla -->
+                            <path d="M 22 18 Q 36 14 36 26 Q 28 26 22 18 Z" fill="#ffffff" filter="drop-shadow(0 0 6px #00d2ff)" />
+                            <path d="M 78 18 Q 64 14 64 26 Q 72 26 78 18 Z" fill="#ffffff" filter="drop-shadow(0 0 6px #00d2ff)" />
+
+                            <!-- Gancho de Remolque Rojo de Carreras en el Frente -->
+                            <rect x="47" y="5" width="6" height="6" fill="#ff0033" rx="1"/>
+
+                            <defs>
+                                <linearGradient id="gradMclarenSilver" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0%" stop-color="#3a3d46"/>
+                                    <stop offset="50%" stop-color="#a4abb5"/>
+                                    <stop offset="100%" stop-color="#2a2c33"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- CELEBRACIÓN DE VICTORIA EN META -->
+        <div class="celebracion-meta" id="celebracionMeta">
+            <div class="destello-dorado"></div>
+            <div class="fuegos-emotivos">
+                <span>💣</span><span>💥</span><span>🏆</span><span>💥</span><span>💣</span>
+            </div>
+            <div class="super-trofeo-3d">
+                <svg viewBox="0 0 100 100" class="svg-trofeo-elegante">
+                    <path d="M 22 15 L 78 15 L 70 56 C 62 72, 38 72, 30 56 Z" fill="url(#gradTrofeo)" stroke="#ffffff" stroke-width="1.5"/>
+                    <path d="M 14 22 C 2 22, 2 48, 24 48" fill="none" stroke="url(#gradTrofeo)" stroke-width="4.5"/>
+                    <path d="M 86 22 C 98 22, 98 48, 76 48" fill="none" stroke="url(#gradTrofeo)" stroke-width="4.5"/>
+                    <rect x="43" y="68" width="14" height="18" fill="#b38600"/>
+                    <rect x="25" y="86" width="50" height="10" rx="3" fill="#1a1a1a" stroke="#ffd700" stroke-width="1.5"/>
+                    <defs>
+                        <linearGradient id="gradTrofeo" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0%" stop-color="#fff2a3"/>
+                            <stop offset="50%" stop-color="#ffd700"/>
+                            <stop offset="100%" stop-color="#b38600"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+            <p class="subtitulo-victoria">VICTORIA ABSOLUTA EN LA PISTA</p>
+            <h2 class="texto-campeon">¡CAMPEÓN DE MI CORAZÓN!</h2>
+        </div>
+
+        <div class="informacion">
+            <span id="posicion">POSICIÓN: 3°</span>
+            <span id="estado">VELOCIDAD: 0 KM/H</span>
+        </div>
+    </main>
+
+    <!-- ================================= -->
+    <!-- PARTE ROMÁNTICA FINAL CON ANIMACIONES -->
+    <!-- ================================= -->
+    <section class="finalAmor" id="finalAmor">
+        <div class="particulas-amor" id="particulasAmor">
+            <div class="burbuja-animada item-1">❤️</div>
+            <div class="burbuja-animada item-2">🏁</div>
+            <div class="burbuja-animada item-3">🏎️</div>
+            <div class="burbuja-animada item-4">🛞</div>
+            <div class="burbuja-animada item-5">💖</div>
+            <div class="burbuja-animada item-6">✨</div>
+            <div class="burbuja-animada item-7">🏆</div>
+            <div class="burbuja-animada item-8">💕</div>
+            <div class="burbuja-animada item-9">🏁</div>
+            <div class="burbuja-animada item-10">🏎️</div>
+            <div class="burbuja-animada item-11">🛞</div>
+            <div class="burbuja-animada item-12">❤️</div>
+        </div>
+
+        <div class="tarjeta-amor">
+            <div class="trofeo-badge">
+                <svg viewBox="0 0 100 100" class="svg-trofeo">
+                    <path d="M 25 20 L 75 20 L 68 55 C 62 70, 38 70, 32 55 Z" fill="#ffcc00" stroke="#fff" stroke-width="2"/>
+                    <path d="M 18 25 C 8 25, 8 45, 28 45" fill="none" stroke="#ffcc00" stroke-width="4"/>
+                    <path d="M 82 25 C 92 25, 92 45, 72 45" fill="none" stroke="#ffcc00" stroke-width="4"/>
+                    <rect x="44" y="65" width="12" height="15" fill="#e69900"/>
+                    <rect x="30" y="80" width="40" height="12" rx="3" fill="#333" stroke="#ffcc00" stroke-width="1.5"/>
+                </svg>
+            </div>
+
+            <p class="pequenoFinal">30 DE SEPTIEMBRE • MI PERSONA FAVORITA</p>
+
+            <div class="contenedor-corazon-humano">
+                <svg viewBox="0 0 200 220" class="corazon-humano-svg">
+                    <defs>
+                        <linearGradient id="gradAorta" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff4d6d"/>
+                            <stop offset="100%" stop-color="#800020"/>
+                        </linearGradient>
+                        <linearGradient id="gradVenas" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#00b4d8"/>
+                            <stop offset="100%" stop-color="#03045e"/>
+                        </linearGradient>
+                        <linearGradient id="gradMusculo" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#ff0033"/>
+                            <stop offset="50%" stop-color="#a7001e"/>
+                            <stop offset="100%" stop-color="#4a000b"/>
+                        </linearGradient>
+                        <filter id="glowCorazon" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="8" result="blur" />
+                            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        </filter>
+                    </defs>
+
+                    <path d="M 85 50 C 85 20, 125 15, 135 40 C 140 55, 130 75, 120 85" fill="none" stroke="url(#gradAorta)" stroke-width="22" stroke-linecap="round" />
+                    <path d="M 70 55 C 60 30, 40 30, 35 50 C 32 65, 45 80, 55 90" fill="none" stroke="url(#gradVenas)" stroke-width="18" stroke-linecap="round" />
+                    <path d="M 95 22 L 95 40" stroke="#ff4d6d" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 110 20 L 110 42" stroke="#ff4d6d" stroke-width="8" stroke-linecap="round"/>
+                    <path d="M 123 25 L 121 46" stroke="#ff4d6d" stroke-width="7" stroke-linecap="round"/>
+
+                    <path d="M 60 80 C 30 90, 20 130, 45 165 C 65 195, 95 210, 115 212 C 145 200, 185 160, 170 115 C 160 85, 125 75, 95 85 C 80 88, 70 82, 60 80 Z" fill="url(#gradMusculo)" filter="url(#glowCorazon)"/>
+
+                    <path d="M 95 88 C 110 115, 120 150, 115 212" fill="none" stroke="#660011" stroke-width="4" opacity="0.7"/>
+                    <path d="M 92 92 Q 80 120, 60 145 M 82 125 Q 95 145, 105 175 M 115 105 Q 135 130, 145 155" fill="none" stroke="#ff8093" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+                </svg>
+            </div>
+
+            <p class="textoGanaste">¡VICTORIA ABSOLUTA Y ETERNA!</p>
+            <h2>TE HAS GANADO<br><span>LA CARRERA A MI CORAZÓN</span></h2>
+
+            <div class="lineaFinal"></div>
+
+            <p class="fraseCarta">
+                Avanzaste con fuerza, esquivaste cada obstáculo y aceleraste directo a mi alma.<br><br>
+                Entre todos los caminos y pistas del universo, mi corazón siempre latirá y acelerará únicamente por ti.<br>
+            </p>
+
+            <div class="firma-amor">
+                Con todo mi amor, hoy y siempre ❤️✨
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

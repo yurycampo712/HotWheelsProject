@@ -1,0 +1,624 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: #030303;
+    color: white;
+    overflow: hidden;
+}
+
+h1, h2, .contador, .textoMeta, .badge, .linea-salida-pintada, .pad-nitro, .texto-campeon, .subtitulo-victoria {
+    font-family: 'Orbitron', sans-serif;
+}
+
+/* CANVAS CONFETI */
+#confettiCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 350;
+    pointer-events: none;
+}
+
+/* PANTALLA INICIO */
+.inicio {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1b0507 0%, #080203 50%, #000000 100%);
+}
+
+.luzInicio {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(230, 0, 32, 0.22), transparent 70%);
+    filter: blur(50px);
+    pointer-events: none;
+}
+
+.contenido {
+    position: relative;
+    z-index: 50;
+    text-align: center;
+    width: 90%;
+    max-width: 600px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(230, 0, 32, 0.12);
+    border: 1px solid rgba(230, 0, 32, 0.4);
+    color: #ff3344;
+    font-size: 11px;
+    letter-spacing: 3px;
+    border-radius: 20px;
+    margin-bottom: 22px;
+}
+
+.contenido h1 {
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.contenido h1 span {
+    color: #e60021;
+    text-shadow: 0 0 30px rgba(230, 0, 33, 0.8);
+}
+
+.mensaje {
+    color: #b5b5b5;
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 38px;
+}
+
+.btn-principal {
+    position: relative;
+    z-index: 100;
+    border: none;
+    background: linear-gradient(45deg, #c40018, #ff2a00);
+    color: white;
+    padding: 18px 48px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(230, 0, 32, 0.5);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.btn-principal:hover {
+    transform: scale(1.06);
+    box-shadow: 0 0 50px rgba(230, 0, 32, 0.8);
+}
+
+/* PANTALLA CARRERA */
+.carrera {
+    display: none;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #050508;
+}
+
+.hud-top {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 200;
+}
+
+.contador {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 30px #e60021;
+}
+
+.mensajeCarrera {
+    color: #ffcc00;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 800;
+    text-transform: uppercase;
+    transition: opacity 0.3s ease;
+}
+
+.escenaPista {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.pista-container {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    height: 100%;
+    background: #111116;
+    box-shadow: 0 0 60px rgba(0,0,0,0.95);
+    display: flex;
+}
+
+/* PIANOS LATERALES PROFESIONALES */
+.pordón {
+    width: 18px;
+    height: 100%;
+    background: repeating-linear-gradient(0deg, #d32f2f 0px, #d32f2f 35px, #ffffff 35px, #ffffff 70px);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+    z-index: 10;
+}
+
+.pista-asfalto {
+    flex: 1;
+    position: relative;
+    background: #1c1c24;
+    overflow: hidden;
+    border-left: 2px solid rgba(255,255,255,0.15);
+    border-right: 2px solid rgba(255,255,255,0.15);
+}
+
+.lineaCarretera {
+    position: absolute;
+    width: 6px;
+    height: 75px;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 3px;
+}
+
+/* LÍNEA DE SALIDA LIMPvector */
+.parrilla-salida {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 5;
+}
+
+.linea-salida-pintada {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: repeating-linear-gradient(90deg, #ffffff 0 20px, #111111 20px 40px);
+    color: #ffaa00;
+    font-size: 10px;
+    font-weight: 900;
+    text-align: center;
+    line-height: 20px;
+    letter-spacing: 4px;
+}
+
+/* AUTOS Y VEHÍCULOS HOT WHEELS */
+.carro {
+    position: absolute;
+    width: 68px;
+    height: 125px;
+    z-index: 20;
+    transition: left 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), top 1.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.svg-car {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0px 8px 10px rgba(0,0,0,0.85));
+}
+
+.headlight-beam {
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 110px;
+    background: linear-gradient(0deg, rgba(255,255,255,0.2) 0%, transparent 100%);
+    clip-path: polygon(30% 100%, 70% 100%, 100% 0, 0 0);
+    pointer-events: none;
+}
+
+.player-beam {
+    background: linear-gradient(0deg, rgba(255,255,255,0.6) 0%, rgba(0,212,255,0.3) 60%, transparent 100%);
+    width: 90px;
+    height: 130px;
+    top: -120px;
+}
+
+.jugador { z-index: 40; }
+
+.fuego-escape {
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 14px;
+    height: 22px;
+    background: radial-gradient(circle, #ffffff 0%, #ffaa00 40%, #ff0022 80%, transparent 100%);
+    border-radius: 50%;
+    filter: blur(1.5px);
+    animation: llamaNitro 0.08s infinite alternate;
+}
+
+.fuego-escape.super-nitro {
+    width: 28px;
+    height: 50px;
+    bottom: -36px;
+    background: radial-gradient(circle, #ffffff 0%, #00ffff 30%, #ff0055 80%, transparent 100%);
+    filter: blur(2px);
+}
+
+@keyframes llamaNitro {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+}
+
+/* OBSTÁCULOS CON OCULTAMIENTO AUTOMÁTICO */
+.obstaculo {
+    position: absolute;
+    z-index: 15;
+    transform: translateX(-50%);
+    transition: opacity 0.5s ease;
+}
+
+.obstaculo.pasado {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.obs-cono { width: 40px; height: 40px; }
+.obs-aceite { width: 85px; height: 45px; }
+
+.obs-barrera {
+    width: 96px;
+    height: 22px;
+    background: #0f0f14;
+    border: 1px solid #ff3344;
+    box-shadow: 0 0 10px rgba(255, 51, 68, 0.4);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.barrera-neon span {
+    color: #ff3344;
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 0 3px;
+}
+
+.svg-obs { width: 100%; height: 100%; }
+
+.obs-nitro {
+    width: 110px;
+    height: 32px;
+    background: linear-gradient(90deg, transparent, rgba(255, 204, 0, 0.4), transparent);
+    border-top: 2px solid #ffcc00;
+    border-bottom: 2px solid #ffcc00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pad-nitro {
+    color: #ffea00;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px #ffcc00;
+}
+
+/* META */
+.lineaMeta {
+    position: absolute;
+    top: -160px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: repeating-conic-gradient(#111 0 25%, #fff 0 50%) 0 0/28px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.textoMeta {
+    background: #000;
+    color: #fff;
+    padding: 6px 20px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    border: 2px solid #fff;
+}
+
+/* CELEBRACIÓN DE VICTORIA EN META */
+.celebracion-meta {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 300;
+    background: radial-gradient(circle at center, rgba(30,0,8,0.94) 0%, rgba(5,5,8,0.98) 100%);
+    backdrop-filter: blur(8px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.celebracion-meta.mostrar {
+    display: flex;
+    opacity: 1;
+}
+
+.fuegos-emotivos {
+    font-size: 32px;
+    margin-bottom: 15px;
+    animation: pulsoFuegos 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes pulsoFuegos {
+    from { transform: scale(0.9); filter: drop-shadow(0 0 10px #ff0055); }
+    to { transform: scale(1.2); filter: drop-shadow(0 0 25px #ffcc00); }
+}
+
+.destello-dorado {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(255,215,0,0.25) 0%, transparent 70%);
+    filter: blur(35px);
+    animation: pulsoDestello 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulsoDestello {
+    from { transform: scale(0.9); opacity: 0.5; }
+    to { transform: scale(1.2); opacity: 0.9; }
+}
+
+.super-trofeo-3d {
+    position: relative;
+    z-index: 10;
+    width: 130px;
+    height: 130px;
+    margin-bottom: 20px;
+    animation: trofeoAparicion 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.svg-trofeo-elegante {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 25px rgba(255, 215, 0, 0.8));
+}
+
+@keyframes trofeoAparicion {
+    from { transform: scale(0.7) translateY(30px); opacity: 0; }
+    to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.subtitulo-victoria {
+    position: relative;
+    z-index: 10;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #ff5566;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+.texto-campeon {
+    position: relative;
+    z-index: 10;
+    font-size: 24px;
+    letter-spacing: 3px;
+    color: #ffd700;
+    text-shadow: 0 0 20px rgba(255, 0, 51, 0.8);
+}
+
+/* HUD INFERIOR */
+.informacion {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 420px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    z-index: 100;
+    background: rgba(10, 10, 15, 0.9);
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+/* PARTE ROMÁNTICA FINAL CON ANIMACIONES DE BANDERAS, LLANTAS, CARROS Y CORAZONES */
+.finalAmor {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 500;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: radial-gradient(circle at center, #3d000d 0%, #150005 60%, #000000 100%);
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.finalAmor.mostrar {
+    display: flex;
+    opacity: 1;
+}
+
+.particulas-amor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.burbuja-animada {
+    position: absolute;
+    font-size: 26px;
+    animation: flotarConRotacion 5s infinite linear;
+    opacity: 0.85;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+}
+
+.item-1  { left: 6%;  animation-delay: 0s;   animation-duration: 5.2s; }
+.item-2  { left: 18%; animation-delay: 1.2s; animation-duration: 4.8s; }
+.item-3  { left: 32%; animation-delay: 2.5s; animation-duration: 5.5s; }
+.item-4  { left: 45%; animation-delay: 0.5s; animation-duration: 4.6s; }
+.item-5  { left: 58%; animation-delay: 1.8s; animation-duration: 5.1s; }
+.item-6  { left: 70%; animation-delay: 3.0s; animation-duration: 4.9s; }
+.item-7  { left: 82%; animation-delay: 0.9s; animation-duration: 5.4s; }
+.item-8  { left: 92%; animation-delay: 2.1s; animation-duration: 4.7s; }
+.item-9  { left: 24%; animation-delay: 3.5s; animation-duration: 5.3s; }
+.item-10 { left: 52%; animation-delay: 4.0s; animation-duration: 5.0s; }
+.item-11 { left: 76%; animation-delay: 1.5s; animation-duration: 4.5s; }
+.item-12 { left: 12%; animation-delay: 2.8s; animation-duration: 5.6s; }
+
+@keyframes flotarConRotacion {
+    0% {
+        bottom: -10%;
+        transform: translateY(0) scale(0.6) rotate(0deg);
+        opacity: 0;
+    }
+    20% { opacity: 0.95; }
+    80% { opacity: 0.95; }
+    100% {
+        bottom: 112%;
+        transform: translateY(-120px) scale(1.25) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.tarjeta-amor {
+    position: relative;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 215, 0, 0.25);
+    backdrop-filter: blur(15px);
+    border-radius: 28px;
+    padding: 35px 28px;
+    max-width: 480px;
+    width: 100%;
+    box-shadow: 0 0 50px rgba(255, 0, 51, 0.25), inset 0 0 20px rgba(255, 215, 0, 0.05);
+    animation: aparecerTarjeta 1.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes aparecerTarjeta {
+    from { transform: translateY(40px) scale(0.92); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.trofeo-badge {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 10px;
+}
+
+.svg-trofeo {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 12px rgba(255, 204, 0, 0.8));
+}
+
+.contenedor-corazon-humano {
+    width: 150px;
+    height: 160px;
+    margin: 10px auto 15px;
+}
+
+.corazon-humano-svg {
+    width: 100%;
+    height: 100%;
+    animation: latidoHumano 1.15s ease-in-out infinite;
+}
+
+@keyframes latidoHumano {
+    0%, 100% { transform: scale(1); }
+    12% { transform: scale(1.12); }
+    28% { transform: scale(1.02); }
+    42% { transform: scale(1.08); }
+}
+
+.textoGanaste {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: #ff5566;
+    margin-bottom: 8px;
+    font-weight: 800;
+}
+
+.tarjeta-amor h2 {
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.tarjeta-amor h2 span {
+    color: #ff0033;
+    text-shadow: 0 0 20px rgba(255, 0, 51, 0.7);
+}
+
+.lineaFinal {
+    width: 80px;
+    height: 2px;
+    margin: 20px auto;
+    background: linear-gradient(90deg, transparent, #ff0033, transparent);
+    box-shadow: 0 0 10px #ff0033;
+}
+
+.fraseCarta {
+    color: #e2d1d4;
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+    font-weight: 400;
+}
+
+.firma-amor {
+    font-family: 'Dancing Script', cursive;
+    font-size: 22px;
+    color: #ffcc00;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+}
+
+@media (max-width: 600px) {
+    .contenido h1 { font-size: 38px; }
+    .tarjeta-amor h2 { font-size: 22px; }
+    .tarjeta-amor { padding: 25px 20px; }
+    .contenedor-corazon-humano { width: 120px; height: 130px; }
+}
